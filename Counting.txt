@@ -1,0 +1,36 @@
+//=== Number of tensor rank one elements of size (k,m,n) in Fq :
+function TRKOne (q,k,m,n)
+   return (q^k-1)*(q^m-1)*(q^n-1)/((q-1)^2);
+end function;
+
+//=== Gaussian Binomial coefficient
+function GBC(q,n,r)
+   return &*([ 1-q^(n-t) : t in [0..r-1] ] cat [1]) / &*([ 1-q^t : t in [1..r] ] cat [1]);
+end function;
+
+//=== Number of tensor rank two elements of size (k,m,n) in Fq : k,m,n>=2
+function TRKTwo (q,k,m,n)
+   return   q*(q^k - 1)*(q^m-1)*(q^n-1)/((q -1)^3 * (q^2 -1)) * ((q^(n-1)-1)*(q^(m-1)-1)*(q^(k-1)-1)*q^2*(q+1)/2 + (q-1)* (q^(n+m-2) + q^(n+k-2) + q^(k+m-2) -2*(q^(n-1) + q^(m-1) + q^(k-1)) +3) ); 
+end function; 
+
+//=== Number of tensor rank two elements of size (k,m,n) in Fq : k,m,n>=2
+function TRKTwoBis(q,k,m,n)
+   return q*(q-1)*(q^2-1)*( GBC(q,k,1) * GBC(q,m,2) * GBC(q,n,2) + GBC(q,k,2) * GBC(q,m,1) * GBC(q,n,1) * ( (q^2 / 2) * GBC(q,m-1,1) * GBC(q,n-1,1) + ( GBC(q,m-1,1) + GBC(q,n-1,1) ) / (q+1) ) );
+end function;
+
+//=== Number of tensor rank two elements of size (n,n,n) in Fq :  n>=2
+function TRKTwoSquared(q,n)
+    return q*(q^n-1)^3*(q^(n-1)-1)^2 * (q^2 * (q+1) * (q^(n-1)-1)/2 + 3*(q-1)) / ((q-1)^3* (q^2-1)) ; 
+end function;
+
+//=== Verifying with Brute Force verified values
+procedure TestTrk2Value()
+	TRKTwo(2,2,2,2) eq 162;
+	TRKTwo(2,3,2,2) eq 1050;
+	TRKTwo(2,4,2,2) eq 5130;
+	TRKTwo(2,5,2,2) eq 22506;
+	TRKTwo(2,3,3,2) eq 6762;
+	TRKTwo(2,4,3,2) eq 32970;
+	TRKTwo(3,2,2,2) eq 4032;
+	TRKTwo(5,2,2,2) eq 224640;
+end procedure;
