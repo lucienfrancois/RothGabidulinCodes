@@ -23,7 +23,7 @@ function TRKTwoSquared(q,n)
     return q*(q^n-1)^3*(q^(n-1)-1)^2 * (q^2 * (q+1) * (q^(n-1)-1)/2 + 3*(q-1)) / ((q-1)^3* (q^2-1)) ; 
 end function;
 
-//=== Verifying with Brute Force verified values
+//=== Verifying tensor rank with Brute Force verified values
 procedure TestTrk2Value()
 	TRKTwo(2,2,2,2) eq 162;
 	TRKTwo(2,3,2,2) eq 1050;
@@ -34,3 +34,21 @@ procedure TestTrk2Value()
 	TRKTwo(3,2,2,2) eq 4032;
 	TRKTwo(5,2,2,2) eq 224640;
 end procedure;
+
+//=== Number of matrices m x n of given rank r over Fq
+function NbRank(q,n,m,r) 
+   return GBC(q,m,r) * &+ [ (-1)^(r-k) * GBC(q,r,k) * q^(n*k + Binomial(r-k,2))    : k in [0..r]]   ;
+end function;
+
+//=== Number of correctible errors by the one-way fibre-wise decoder on C([0,mu]²)
+function NbcorrV1(q,n,mu)
+   S := &+ [NbRank(q,n,n,r) : r in [0..Floor((n-mu-1)/2)]];
+   return S^n;
+end function;
+
+//=== Number of correctible errors by the two-way fibre-wise decoder on C([0,mu1]x[0,mu2])
+function NbcorrV2(q,n,mu1,mu2)
+   SS := &+ [NbRank(q,n,n,r) : r in [0..Floor((n-mu1-1)/2)]];
+   S := &+ [Binomial(n,k) * SS^k * (q^(n^2) - SS)^(n-k)  : k in [Ceiling((n+mu2 + 1)/2)..n]];
+   return S;
+end function;
