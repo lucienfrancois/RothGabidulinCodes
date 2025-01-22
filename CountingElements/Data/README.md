@@ -1,5 +1,6 @@
 ## Data description
 ### MinMaxRankBoundtiny.tex
+List of computations of 
 ```math
 SE = \frac{\sigma}{\sqrt{n}}
 ``` 
