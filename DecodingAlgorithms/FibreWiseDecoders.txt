@@ -1,4 +1,3 @@
-```magma
 //=============================================================================
 //=============================================================================
 //          Fibre decoding algorithm for RothGabidulin codes
@@ -315,4 +314,3 @@ procedure TestFibreWiseDecoder()
    MM := FibreWiseDecoder(R,mu1,mu2);
    printf "  --Result:\n%o   ie %o\n",MM,MM eq M;
 end procedure;
-```
