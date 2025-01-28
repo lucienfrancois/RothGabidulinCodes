@@ -8,4 +8,4 @@ Here is a collection of data and MAGMA code linked to the paper.
      - 
 
 :open_file_folder: <ins>**Decoding algorithms** </ins>\
-     -
+     - FibreWiseDecoders.txt: *MAGMA code to decode a tensor codeword with the fibrewise decoder*.\
