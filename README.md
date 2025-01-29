@@ -3,8 +3,7 @@ Here is a collection of data and MAGMA code associated with the study of the gen
 
 ## Table of contents
 :open_file_folder: <ins>__Counting elements__</ins>\
-**ComputingCardinalities.txt**: *MAGMA code to compute the number of words with the conditions on the rank, the tensor-rank ect..*.
-
+**ComputingCardinalities.txt**: *MAGMA code to compute the number of 3-tensor of tensor-rank 1 or 2, as well as the number of matrices of a given rank, and the number of errors corrected by the fibre-wised decoders below*.
 
 :open_file_folder: <ins>__Decoding algorithms__</ins>\
 **FibreWiseDecoders.m**: *MAGMA code to decode a tensor codeword with the fibrewise decoders*.\
@@ -14,4 +13,5 @@ The algorithm used for Gabidulin decoding is in [this paper by Antonia Wachter-Z
 \
 **RadicalDecoders.m**: *MAGMA code to decode a tensor codeword with the radical decoders*.\
 The algorithm ```FactoringOnTheLeft(N,V,S)``` factors any q-polynomial N(X,Y) = V(f(X,Y)) with V(Z) a single variable q-polynomial.\
-The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with 3-fibre weight upper bounded by t using the radical criterion for factorization.
+The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with an error thas has 3-fibre weight upper bounded by t using the radical criterion for factorization.\
+The algorithm ```RadicalDecoder(R,mu)```, decodes a codeword with an error that has wSigma upper bounded, using the radical criterion for factorization.
