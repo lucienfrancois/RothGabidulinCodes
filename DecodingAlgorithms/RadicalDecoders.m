@@ -6,8 +6,8 @@
 
 
 //===================Choice of parameters=======================
-q := 3;                                            //===========
-n := 8;                                            //==========   
+q := 4;                                            //===========
+n := 10;                                            //==========   
 //==============================================================
 
 
@@ -125,7 +125,7 @@ end function;
 
 function RadicalDecoderFix(R,mu,t)
   //Given R = M + E where M in C([0..mu]²) 
-  // and E an error with wSigma(E) <= n-mu-1
+  // and E an error with wfs3(E) <= t and minj wssj(E)<= n-t-mu-2
   // returns M.
 
   Sf := {[s1 ,s2 ]  : s1 in [0..mu],s2 in [0..mu]};
@@ -181,5 +181,82 @@ procedure TestRadicalDecoderFix()
   R := M + E;
   printf "  --Recieved:\n%o\n",R;
   MM := RadicalDecoderFix(R,mu,t);
+  printf "  --Result:\n%o   ie %o\n",MM,MM eq M; 
+end procedure;
+
+
+
+
+function RadicalDecoder(R,mu)
+  //Given R = M + E where M in C([0..mu]²) 
+  // and E an error with wSigma(E) <= n-mu-1
+  // returns M.
+
+  Sf := {[s1 ,s2 ]  : s1 in [0..mu],s2 in [0..mu]};
+
+  //Find by bisection method the smallest t such that the system has a non-trivial solution.
+  ta := -1; //always no non-trivial solution
+  tb := n; //always a solution.
+  while tb-ta gt 1 do
+     ttest := Floor((tb + ta)/2);
+     //printf "Step ta = %3o, tb = %3o, ttest = %3o\n",ta,tb,ttest;
+     SnSet := {[s1 + L,s2 + L]  : s1 in [0..mu],s2 in [0..mu], L in [0..ttest]};
+     Sn := SetToSequence(SnSet);
+     M := ZeroMatrix(Fqn,n^2,#Sn + ttest + 1);
+     for nbline in [1..n^2] do 
+        i := Int2Tpl(nbline); // equation <i[1],i[2]>;
+        for dV in [1..ttest+1] do
+           M[nbline,dV] := R[i[1],i[2]]^(q^(dV-1));
+        end for;
+        for nbS in [1..#Sn] do
+           M[nbline,ttest+1+nbS] := - alpha[i[1]]^(q^(Sn[nbS][1])) * alpha[i[2]]^(q^(Sn[nbS][2]));
+        end for;
+     end for;
+     if Rank(M) eq #Sn + ttest + 1 then //ie. no nontrivial solution
+        ta := ttest;
+     else
+        tb := ttest;
+        Mb := M;
+        Snb := Sn;
+     end if;
+  end while;
+
+  if ta eq n-1 then
+     printf "Decoding failure. The error does not have that shape.\n";
+     return -1;
+  end if;
+  //Since ta diffrent than n-1, it means that there exists a system that worked.
+  K := Kernel(Transpose(Mb));
+  Solution := K.1;
+
+  //Reconstruct
+  V := &+ [Solution[i] * Z^(q^(i-1)) : i in [1..tb+1]];
+  N := &+ [Solution[tb+1+nbS]* X^(q^(Snb[nbS][1])) * Y^(q^(Snb[nbS][2])) : nbS in [1..#Snb]];
+  if V eq RZ!0 then
+     printf "Decoding failure.\n";
+     return -1;
+  end if;
+  f := FactoringOnTheLeft(N,V,Sf);
+  MM := ZeroMatrix(Fqn,n,n);
+  for i in [1..n],j in [1..n] do
+    MM[i,j] := Evaluate(f,[alpha[i],alpha[j]]);
+  end for;
+  return MM;
+end function;
+procedure TestRadicalDecoder()
+  mu := Random([1..n-2]);
+  t := Random([0..n-2-mu]);
+  printf "\n\n== Radical Decoder in C([0..%o]^2) in (Fq^%o)^(ox3) === \n   [Radius:%5o]\n",mu,n,n-mu-1;
+  f := &+[Random(Fqn)*X^(q^(i1))*Y^(q^(i2)) : i1 in [0..mu],i2 in [0..mu]];
+  M := ZeroMatrix(Fqn,n,n);
+  for i in [1..n],j in [1..n] do
+    M[i,j] := Evaluate(f,[alpha[i],alpha[j]]);
+  end for;
+  printf "  --Codeword:\n%o\n",M;
+  E := RandomErrorFs3andMinssj(t,n-mu-t-1);
+  printf "  --Error:\n%o\n",E;
+  R := M + E;
+  printf "  --Recieved:\n%o\n",R;
+  MM := RadicalDecoder(R,mu);
   printf "  --Result:\n%o   ie %o\n",MM,MM eq M; 
 end procedure;
