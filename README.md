@@ -1,6 +1,5 @@
-# RothGabidulinCodes
-
-Here is a collection of data and MAGMA code linked to the paper. 
+# Roth Tensor Codes
+Here is a collection of data and MAGMA code associated with the study of the generalization of the tensor codes introduced by Ron Roth. 
 
 ## Table of contents
 :open_file_folder: <ins>__Counting elements__</ins>\
