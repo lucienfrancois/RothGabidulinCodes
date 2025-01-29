@@ -18,4 +18,7 @@ The algorithm ```RadicalDecoder(R,mu)```, decodes a codeword with an error that 
 
 **DecodingInTensorRankMetrix.m**: *MAGMA code to decode a tensor codeword with an error with tensor-rank upper bounded*.\
 The algorithm ```RandomErrorTRANK(T)``` creates a random (non-uniform) matrix over Fqn whith tensor rank (over Fq) upper-bounded by T.\
-The algorithm ```DecodeTRANKbyProxy(R,mu)``` decodes a codeword with an error whose tensor-rank is upper-bounded.
+The algorithm ```DecodeTRANKbyProxy(R,mu)``` decodes a codeword with an error whose tensor-rank is upper-bounded.\
+\
+\
+:hammer_and_wrench: <ins>*To be added:*</ins> *Generalizations to order m-tensors, syndrome tensor-rank decoder upgraded.*
