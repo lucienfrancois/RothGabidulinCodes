@@ -1,5 +1,5 @@
 # Roth Tensor Codes
-Here is a collection of data and MAGMA code associated with the study of the generalization of the tensor codes introduced by [Ron M. Roth](https://ieeexplore.ieee.org/document/556603). One can find on [this official MAGMA webpage](https://magma.maths.usyd.edu.au/calc/) a free magma calculator.
+Here is a collection of data and MAGMA code associated with the study of the generalization of the tensor codes introduced by [Ron M. Roth](https://ieeexplore.ieee.org/document/556603). One can find on [this official MAGMA webpage](https://magma.maths.usyd.edu.au/calc/) a free magma calculator. All the functions in the code, except if trivial or repeated, have a linked procedure to test them.
 
 ## Table of contents
 :open_file_folder: <ins>__Counting elements__</ins>\
@@ -15,3 +15,7 @@ The algorithm used for Gabidulin decoding is in [this paper by Antonia Wachter-Z
 The algorithm ```FactoringOnTheLeft(N,V,S)``` factors any q-polynomial N(X,Y) = V(f(X,Y)) with V(Z) a single variable q-polynomial.\
 The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with an error thas has 3-fibre weight upper bounded by t using the radical criterion for factorization.\
 The algorithm ```RadicalDecoder(R,mu)```, decodes a codeword with an error that has wSigma upper bounded, using the radical criterion for factorization.
+
+**DecodingInTensorRankMetrix.m**: *MAGMA code to decode a tensor codeword with an error with tensor-rank upper bounded*.\
+The algorithm ```RandomErrorTRANK(T)``` creates a random (non-uniform) matrix over Fqn whith tensor rank (over Fq) upper-bounded by T.\
+The algorithm ```DecodeTRANKbyProxy(R,mu)``` decodes a codeword with an error whose tensor-rank is upper-bounded.
