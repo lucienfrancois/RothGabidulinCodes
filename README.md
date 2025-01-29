@@ -14,4 +14,4 @@ The algorithm used for Gabidulin decoding is in [this paper by Antonia Wachter-Z
 \
 **RadicalDecoders.m**: *MAGMA code to decode a tensor codeword with the radical decoders*.\
 The algorithm ```FactoringOnTheLeft(N,V,S)``` factors any q-polynomial N(X,Y) = V(f(X,Y)) with V(Z) a single variable q-polynomial.\
-The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with 3-fibre weight upper bounded by t using the radical criterion for factorization.\
+The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with 3-fibre weight upper bounded by t using the radical criterion for factorization.
