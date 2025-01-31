@@ -8,7 +8,7 @@
 
 //===================Choice of parameters=======================
 q := 3;                                            //===========
-n := 8;                                            //==========   
+n := 5;                                            //==========   
 //==============================================================
 
 
@@ -214,7 +214,6 @@ function ColumnWiseDecoder(R,mu1,mu2)
    M := ZeroMatrix(Fqn,n,n);
    for i2 in [1..n] do
       RES := DecodeGabidulinWZAS([R[i1,i2]:i1 in [1..n]],mu1+1);
-      RES;
       if Type(RES) eq RngIntElt then
          printf "Known decoding failure on column %o\n",i2;
       else 
@@ -252,7 +251,6 @@ procedure TestColumnWiseDecoder()
    MM := ColumnWiseDecoder(R,mu1,mu2);
    printf "  --Result:\n%o   ie %o\n",MM,MM eq M;
 end procedure;
-
 
 function FibreWiseDecoder(R,mu1,mu2)
    //Given R = M + E where M in C([0..mu1]x[0..mu2]) 
@@ -307,6 +305,102 @@ procedure TestFibreWiseDecoder()
    for i1 in [1..n], i2 in {1..n} diff JJ do
        E[i1,i2] := Random(Fqn);
    end for;
+   printf "  --Error:\n%o\nJ=%o\n",E,JJ;
+   
+   R := M + E;
+   printf "  --Recieved:\n%o\n",R;
+   MM := FibreWiseDecoder(R,mu1,mu2);
+   printf "  --Result:\n%o   ie %o\n",MM,MM eq M;
+end procedure;
+
+//================
+// Examples in paper 
+//================
+procedure TestColumnWiseDecoderExample1()
+   if n ne 5 or q ne 3 then
+    error "The parameters are not q=3 and n =5";
+   end if;
+   mu1 := 2;
+   mu2 := 2;
+   tt := Floor((n-mu1-1)/2);
+   printf "\n\n== ColumnWiseDecoding in C([0..%o]x[0..%o]) in (Fq^%o)^(ox3) with radius %o.==\n",mu1,mu2,n,tt;
+
+   f := RXY!0;
+   M := ZeroMatrix(Fqn,n,n);
+   printf "  --Codeword:\n%o\n  --From:\n%o\n",M,f;
+
+   E := ZeroMatrix(Fqn,n,n);
+   for j in [1..n] do
+     E[1,j] := alpha[j];
+     for i in [2..n] do
+        if j ne 3 and j ne 4 then
+          E[i,j] := alpha[j];
+        end if;
+     end for;
+   end for;
+   printf "  --Error:\n%o\n",E;
+
+   R := M + E;
+   printf "  --Recieved:\n%o\n",R;
+   MM := ColumnWiseDecoder(R,mu1,mu2);
+   printf "  --Result:\n%o   ie %o\n",MM,MM eq M;
+end procedure;
+procedure TestColumnWiseDecoderExample2()
+   if n ne 5 or q ne 3 then
+    error "The parameters are not q=3 and n =5";
+   end if;
+   mu1 := 2;
+   mu2 := 2;
+   tt := Floor((n-mu1-1)/2);
+   printf "\n\n== ColumnWiseDecoding in C([0..%o]x[0..%o]) in (Fq^%o)^(ox3) with radius %o.==\n",mu1,mu2,n,tt;
+
+   f := RXY!0;
+   M := ZeroMatrix(Fqn,n,n);
+   printf "  --Codeword:\n%o\n  --From:\n%o\n",M,f;
+
+   E := ZeroMatrix(Fqn,n,n);
+   for j in [1..n] do
+     E[1,j] := alpha[j];
+     for i in [2..n] do
+        if j ne 3 and j ne 4 and j ne 5 then
+          E[i,j] := alpha[j];
+        elif j eq 5 then
+          E[i,j] := alpha[6-i];
+        end if;
+     end for;
+   end for;
+   printf "  --Error:\n%o\n",E;
+
+   R := M + E;
+   printf "  --Recieved:\n%o\n",R;
+   MM := ColumnWiseDecoder(R,mu1,mu2);
+   printf "  --Result:\n%o   ie %o\n",MM,MM eq M;
+end procedure;
+procedure TestFibreWiseDecoderExample2()
+   if n ne 5 or q ne 3 then
+    error "The parameters are not q=3 and n =5";
+   end if;
+   mu1 := 2;
+   mu2 := 2;
+   tt := Floor((n-mu1-1)/2);
+   printf "\n\n== ColumnWiseDecoding in C([0..%o]x[0..%o]) in (Fq^%o)^(ox3) with radius %o.==\n",mu1,mu2,n,tt;
+
+   f := RXY!0;
+   M := ZeroMatrix(Fqn,n,n);
+   printf "  --Codeword:\n%o\n  --From:\n%o\n",M,f;
+
+   E := ZeroMatrix(Fqn,n,n);
+   for j in [1..n] do
+     E[1,j] := alpha[j];
+     for i in [2..n] do
+        if j ne 3 and j ne 4 and j ne 5 then
+          E[i,j] := alpha[j];
+        elif j eq 5 then
+          E[i,j] := alpha[6-i];
+        end if;
+     end for;
+   end for;
+   JJ := {1,2,3,4};
    printf "  --Error:\n%o\nJ=%o\n",E,JJ;
    
    R := M + E;
