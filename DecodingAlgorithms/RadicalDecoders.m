@@ -6,8 +6,8 @@
 
 
 //===================Choice of parameters=======================
-q := 4;                                            //===========
-n := 10;                                            //==========   
+q := 3;                                            //===========
+n := 6;                                            //==========   
 //==============================================================
 
 
@@ -116,6 +116,8 @@ function RandomErrorFs3andMinssj(t3,tj)
   end if;
   return E;
 end function;
+
+
 
 
 
@@ -245,7 +247,7 @@ function RadicalDecoder(R,mu)
 end function;
 procedure TestRadicalDecoder()
   mu := Random([1..n-2]);
-  t := Random([0..n-2-mu]);
+
   printf "\n\n== Radical Decoder in C([0..%o]^2) in (Fq^%o)^(ox3) === \n   [Radius:%5o]\n",mu,n,n-mu-1;
   f := &+[Random(Fqn)*X^(q^(i1))*Y^(q^(i2)) : i1 in [0..mu],i2 in [0..mu]];
   M := ZeroMatrix(Fqn,n,n);
@@ -253,7 +255,96 @@ procedure TestRadicalDecoder()
     M[i,j] := Evaluate(f,[alpha[i],alpha[j]]);
   end for;
   printf "  --Codeword:\n%o\n",M;
+  t := Random([0..n-2-mu]);
   E := RandomErrorFs3andMinssj(t,n-mu-t-1);
+  printf "  --Error:\n%o\n",E;
+  R := M + E;
+  printf "  --Recieved:\n%o\n",R;
+  MM := RadicalDecoder(R,mu);
+  printf "  --Result:\n%o   ie %o\n",MM,MM eq M; 
+end procedure;
+
+
+
+//================
+// Examples in paper 
+//================
+procedure TestRadicalDecoderExample1()
+  if n ne 6 or q ne 3 then
+    error "The parameters are not q=3 and n =6";
+  end if;
+  mu := 2;
+  printf "\n\n== Radical Decoder in C([0..%o]^2) in (Fq^%o)^(ox3) === \n   [Radius:%5o]\n",mu,n,n-mu-1;
+  f := RXY!0;
+  M := ZeroMatrix(Fqn,n,n);
+  printf "  --Codeword:\n%o\n",M;
+
+  E := ZeroMatrix(Fqn,n,n);
+  for j in [1..3] do
+    E[1,j] := alpha[1];
+    E[2,j] := alpha[1];
+    E[3,j] := -alpha[1];
+  end for;
+  E[1,4] := -alpha[1];
+  E[2,4] := alpha[1];
+  E[4,4] := -alpha[1];
+  E[1,5] := alpha[1];
+  E[2,5] := -alpha[1];
+  E[4,5] := alpha[1];
+  printf "  --Error:\n%o\n",E;
+  R := M + E;
+  printf "  --Recieved:\n%o\n",R;
+  MM := RadicalDecoder(R,mu);
+  printf "  --Result:\n%o   ie %o\n",MM,MM eq M; 
+end procedure;
+procedure TestRadicalDecoderFixExample2()
+  if n ne 6 or q ne 3 then
+    error "The parameters are not q=3 and n =6";
+  end if;
+  mu := 2;
+  printf "\n\n== Radical Decoder in C([0..%o]^2) in (Fq^%o)^(ox3) === \n   [Radius:%5o]\n",mu,n,n-mu-1;
+  f := RXY!0;
+  M := ZeroMatrix(Fqn,n,n);
+  printf "  --Codeword:\n%o\n",M;
+
+  E := ZeroMatrix(Fqn,n,n);
+  for i in [1..3] do
+    E[i,1] := alpha[1];
+    E[i,2] := alpha[1];
+    E[i,3] := alpha[2];
+    E[i,4] := alpha[2];
+  end for;
+  E[4,1] := -alpha[1];
+  E[4,2] := -alpha[1];
+  E[4,3] := -alpha[2];
+  E[4,4] := -alpha[2];
+  printf "  --Error:\n%o\n",E;
+  R := M + E;
+  printf "  --Recieved:\n%o\n",R;
+  MM := RadicalDecoderFix(R,mu,1);
+  printf "  --Result:\n%o   ie %o\n",MM,MM eq M; 
+end procedure;
+procedure TestRadicalDecoderExample2()
+  if n ne 6 or q ne 3 then
+    error "The parameters are not q=3 and n=6";
+  end if;
+  mu := 2;
+  printf "\n\n== Radical Decoder in C([0..%o]^2) in (Fq^%o)^(ox3) === \n   [Radius:%5o]\n",mu,n,n-mu-1;
+  f := RXY!0;
+  M := ZeroMatrix(Fqn,n,n);
+  printf "  --Codeword:\n%o\n",M;
+
+  E := ZeroMatrix(Fqn,n,n);
+  for i in [1..3] do
+    E[i,1] := alpha[1];
+    E[i,2] := alpha[1];
+    E[i,3] := alpha[2];
+    E[i,4] := alpha[2];
+  end for;
+  E[4,1] := -alpha[1];
+  E[4,2] := -alpha[1];
+  E[4,3] := -alpha[2];
+  E[4,4] := -alpha[2];
   printf "  --Error:\n%o\n",E;
   R := M + E;
   printf "  --Recieved:\n%o\n",R;
