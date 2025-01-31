@@ -1,4 +1,4 @@
-# Roth Tensor Codes
+# Decoding Tensor Codes
 Here is a collection of data and MAGMA code associated with the study of the generalization of the tensor codes introduced by [Ron M. Roth](https://ieeexplore.ieee.org/document/556603). One can find on [this official MAGMA webpage](https://magma.maths.usyd.edu.au/calc/) a free magma calculator. All the functions in the code, except if trivial or repeated, have a linked procedure to test them.
 
 ## Table of contents
