@@ -16,7 +16,7 @@ The procedures ```TestColumnWiseDecoderExample1()```, ```TestColumnWiseDecoderEx
 The algorithm ```FactoringOnTheLeft(N,V,S)``` factors any q-polynomial N(X,Y) = V(f(X,Y)) with V(Z) a single variable q-polynomial.\
 The algorithm ```RadicalDecoderFix(R,mu,t)```, decodes a codeword with an error thas has 3-fibre weight upper bounded by t using the radical criterion for factorization.\
 The algorithm ```RadicalDecoder(R,mu)```, decodes a codeword with an error that has wSigma upper bounded, using the radical criterion for factorization.\
-The procedures ```TestRadicalDecoderExample1()```, ```TestRadicalDecoderFixExample2()``` and ```()``` illustrates the particular examples of radical decoding given in *the paper*.\
+The procedures ```TestRadicalDecoderExample1()```, ```TestRadicalDecoderFixExample2()``` and ```TestRadicalDecoderExample2()``` illustrates the particular examples of radical decoding given in *the paper*.\
 \
 **DecodingInTensorRankMetrix.m**: *MAGMA code to decode a tensor codeword with an error with tensor-rank upper bounded*.\
 The algorithm ```RandomErrorTRANK(T)``` creates a random (non-uniform) matrix over Fqn whith tensor rank (over Fq) upper-bounded by T.\
